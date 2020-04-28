@@ -12,7 +12,7 @@ RUN echo 'APT::Get::Assume-Yes "true";' > /etc/apt/apt.conf.d/90circleci \
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN set -ex && apt update && apt install nodejs/stable yarnpkg && apt-get clean
+RUN set -ex && apt update && apt install nodejs/stable yarnpkg && ln -sv /usr/bin/yarnpkg /usr/local/bin/yarn && apt-get clean
 
 # Debian Jessie is EOL'd and original repos don't work.
 # Switch to the archive mirror until we can get people to
