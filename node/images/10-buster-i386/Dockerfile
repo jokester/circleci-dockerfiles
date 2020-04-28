@@ -46,7 +46,7 @@ RUN locale-gen C.UTF-8 || true
 ENV LANG=C.UTF-8
 
 # install jq
-RUN JQ_URL="https://circle-downloads.s3.amazonaws.com/circleci-images/cache/linux-amd64/jq-latest" \
+RUN return 0 && JQ_URL="https://circle-downloads.s3.amazonaws.com/circleci-images/cache/linux-amd64/jq-latest" \
   && curl --silent --show-error --location --fail --retry 3 --output /usr/bin/jq $JQ_URL \
   && chmod +x /usr/bin/jq \
   && jq --version
@@ -63,7 +63,7 @@ RUN JQ_URL="https://circle-downloads.s3.amazonaws.com/circleci-images/cache/linu
 #>    # Then start docker in daemon mode:
 #>    /usr/local/bin/dockerd
 
-RUN set -ex \
+RUN return 0 && set -ex \
   && export DOCKER_VERSION=$(curl --silent --fail --retry 3 https://download.docker.com/linux/static/stable/x86_64/ | grep -o -e 'docker-[.0-9]*\.tgz' | sort -r | head -n 1) \
   && DOCKER_URL="https://download.docker.com/linux/static/stable/x86_64/${DOCKER_VERSION}" \
   && echo Docker URL: $DOCKER_URL \
@@ -76,13 +76,13 @@ RUN set -ex \
   && (docker version || true)
 
 # docker compose
-RUN COMPOSE_URL="https://circle-downloads.s3.amazonaws.com/circleci-images/cache/linux-amd64/docker-compose-latest" \
+RUN return 0 && COMPOSE_URL="https://circle-downloads.s3.amazonaws.com/circleci-images/cache/linux-amd64/docker-compose-latest" \
   && curl --silent --show-error --location --fail --retry 3 --output /usr/bin/docker-compose $COMPOSE_URL \
   && chmod +x /usr/bin/docker-compose \
   && docker-compose version
 
 # install dockerize
-RUN DOCKERIZE_URL="https://circle-downloads.s3.amazonaws.com/circleci-images/cache/linux-amd64/dockerize-latest.tar.gz" \
+RUN return 0 && DOCKERIZE_URL="https://circle-downloads.s3.amazonaws.com/circleci-images/cache/linux-amd64/dockerize-latest.tar.gz" \
   && curl --silent --show-error --location --fail --retry 3 --output /tmp/dockerize-linux-amd64.tar.gz $DOCKERIZE_URL \
   && tar -C /usr/local/bin -xzvf /tmp/dockerize-linux-amd64.tar.gz \
   && rm -rf /tmp/dockerize-linux-amd64.tar.gz \
